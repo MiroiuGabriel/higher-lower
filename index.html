@@ -506,27 +506,7 @@
 				const higherLower = document.createElement('div');
 				higherLower.classList.add('higher-lower');
 
-				let addToNumber = slideData.searches / 100;
-				// if (slideData.searches <= 50000) {
-				// 	addToNumber = 500;
-				// } else if (slideData.searches <= 100000) {
-				// 	addToNumber = 5000;
-				// } else if (
-				// 	slideData.searches > 100000 &&
-				// 	slideData.searches <= 1000000
-				// ) {
-				// 	addToNumber = 20000;
-				// } else if (
-				// 	slideData.searches > 1000000 &&
-				// 	slideData.searches <= 7000000
-				// ) {
-				// 	addToNumber = 100000;
-				// } else if (
-				// 	slideData.searches > 7000000 &&
-				// 	slideData.searches <= 50000000
-				// ) {
-				// 	addToNumber = 1000000;
-				// }
+				const addToNumber = slideData.searches / 100;
 
 				const higher = document.createElement('button');
 				higher.innerHTML = 'Higher <i class="fas fa-caret-up up"></i>';
@@ -711,7 +691,7 @@
 				return;
 			}
 
-			higherButton.addEventListener('click', () => {
+			const setHigherOrLower = isHigher => {
 				const container = document.querySelector('.higher-lower');
 				container.remove();
 				rightSidePoints.classList.add('show');
@@ -719,7 +699,7 @@
 				const id = setInterval(() => {
 					let number =
 						Number(rightSidePoints.textContent.replace(/\D/g, '')) +
-						100;
+						1000;
 					if (number >= 56000) {
 						clearInterval(id);
 						const leftSlideNumber = Number(
@@ -728,7 +708,10 @@
 								.textContent.replace(/\D/g, '')
 						);
 						const timeoutId = setTimeout(() => {
-							if (leftSlideNumber <= number) {
+							if (
+								(leftSlideNumber <= number && isHigher) ||
+								(leftSlideNumber >= number && !isHigher)
+							) {
 								score.textContent = +score.textContent + 1;
 
 								if (
@@ -769,65 +752,14 @@
 					}
 					rightSidePoints.textContent = number.toLocaleString();
 				}, 5);
-			});
-			lowerButton.addEventListener('click', () => {
-				const container = document.querySelector('.higher-lower');
-				container.remove();
-				rightSidePoints.classList.add('show');
+			};
 
-				const id = setInterval(() => {
-					let number =
-						Number(rightSidePoints.textContent.replace(/\D/g, '')) +
-						100;
-					if (number >= 56000) {
-						clearInterval(id);
-						const leftSlideNumber = Number(
-							document
-								.querySelector('.points.left')
-								.textContent.replace(/\D/g, '')
-						);
-						const timeoutId = setTimeout(() => {
-							if (leftSlideNumber >= number) {
-								score.textContent = +score.textContent + 1;
-
-								if (
-									shufflleSlides.length - 1 ===
-									temp.length + 1
-								) {
-									document.querySelector(
-										'.modal-children .title'
-									).textContent = "Good Job! You've won";
-									document.querySelector(
-										'.modal-children .retry'
-									).textContent = 'Replay';
-									document
-										.querySelector('.modal')
-										.classList.add('show');
-									return;
-								}
-								document.querySelector('.left-sl').remove();
-								document.querySelector(
-									'.searches.right'
-								).textContent = 'average monthly searches';
-								clearTimeout(timeoutId);
-								createSilde();
-							} else {
-								if (
-									+score.textContent > +highscore.textContent
-								) {
-									highscore.textContent = score.textContent;
-								}
-								document
-									.querySelector('.modal')
-									.classList.add('show');
-								temp = [];
-								score.textContent = '0';
-							}
-						}, 500);
-					}
-					rightSidePoints.textContent = number.toLocaleString();
-				}, 5);
-			});
+			higherButton.addEventListener('click', () =>
+				setHigherOrLower(true)
+			);
+			lowerButton.addEventListener('click', () =>
+				setHigherOrLower(false)
+			);
 		</script>
 	</body>
 </html>
