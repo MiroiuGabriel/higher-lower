@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap"
+			rel="stylesheet"
+		/>
+		<script
+			src="https://kit.fontawesome.com/50461cc56f.js"
+			crossorigin="anonymous"
+		></script>
+		<title>The Higher Lower Game</title>
+		<style>
+			body {
+				margin: 0;
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				display: flex;
+				font-family: 'Roboto', sans-serif;
+			}
+			#initial-slide {
+				width: 50vw;
+				height: 100vh;
+				transition: 0.5s;
+			}
+			.left-sl {
+				background-color: red;
+				background-image: url('http://api.higherlowergame.com/_client/images/general/slacklining.jpg');
+				background-size: cover;
+				background-position: 50%;
+				filter: brightness(0.9);
+			}
+			.right-sl {
+				background-color: green;
+				background-image: url(http://api.higherlowergame.com/_client/images/general/flights.jpg);
+				background-size: cover;
+				background-position: 50%;
+				filter: brightness(0.9);
+			}
+			#initial-slide .game-controller {
+				width: 100%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			.quote {
+				color: #fff;
+			}
+			.game-controller .title {
+				color: #fff;
+				letter-spacing: 0.2rem;
+				font-size: 3rem;
+				margin: 0;
+			}
+			.game-controller .has {
+				color: #fff;
+				font-size: 1.5rem;
+			}
+			.game-controller .points {
+				color: rgb(248, 248, 98);
+				letter-spacing: 0.2rem;
+				font-size: 4rem;
+				margin: 0;
+				display: inline;
+			}
+			.game-controller .points.right {
+				display: none;
+			}
+			.game-controller .searches {
+				color: #fff;
+				font-size: 1rem;
+				margin: 0;
+			}
+			.game-controller .higher-lower {
+				display: flex;
+				flex-direction: column;
+			}
+			.higher-lower .btn {
+				margin-bottom: 0.5rem;
+				border-radius: 9999px;
+				border: 3px solid #fff;
+				background-color: transparent;
+				color: rgb(248, 248, 98);
+				padding: 1rem 5rem;
+				font-size: 1.5rem;
+				outline: none;
+				transition: 0.5s;
+				font-weight: 600;
+				cursor: pointer;
+			}
+			.btn i {
+				color: #fff;
+				transition: 0.5s;
+				margin-left: 1rem;
+			}
+			.higher-lower .btn:hover {
+				background-color: white;
+				color: #000;
+			}
+			.btn:hover .up {
+				color: #000;
+				transform: translateY(-15%);
+			}
+			.btn:hover .down {
+				color: #000;
+				transform: translateY(15%);
+			}
+			.points.show {
+				display: inline !important;
+			}
+			.versus-container {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			.versus {
+				position: absolute;
+				background-color: #fff;
+				border-radius: 50%;
+				z-index: 1000;
+				display: flex;
+				padding: 2rem;
+				font-size: 2rem;
+				font-weight: 600;
+				justify-content: center;
+				align-items: center;
+			}
+			.score-container {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+				align-items: flex-end;
+				justify-content: space-between;
+			}
+			.score {
+				z-index: 100000;
+				font-size: 1.5rem;
+				color: #fff;
+				margin-bottom: 1.5rem;
+				margin-right: 2rem;
+			}
+			.highscore {
+				z-index: 100000;
+				font-size: 1.5rem;
+				color: #fff;
+				margin-bottom: 1.5rem;
+				margin-left: 2rem;
+			}
+			.modal {
+				position: absolute;
+				width: 100vw;
+				height: 100vh;
+				display: flex;
+				background-color: rgba(0, 0, 0, 0.5);
+				justify-content: center;
+				align-items: center;
+				z-index: 1000000;
+				transition: 0.5s;
+				display: none;
+			}
+
+			.modal.show {
+				display: flex;
+			}
+
+			.modal-children {
+				width: 500px;
+				height: 250px;
+				background-color: #000;
+				border-radius: 14px;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-start;
+				align-items: center;
+				animation: scale 0.4s ease-in forwards;
+			}
+
+			@keyframes scale {
+				from {
+					transform: translateY(-100%);
+				}
+				to {
+					transform: translateY(0);
+				}
+			}
+
+			.modal-children .title {
+				font-size: 1.4rem;
+				user-select: none;
+				color: #fff !important;
+				margin-top: 2rem;
+			}
+
+			.modal-children .btn {
+				padding: 1rem 5rem;
+				font-size: 1.5rem;
+				font-weight: 600;
+				background-color: transparent;
+				outline: none;
+				border-radius: 9999px;
+				border: 3px solid #fff;
+				margin-top: 2rem;
+				cursor: pointer;
+				color: #fff;
+				transition: 0.5s;
+			}
+			.modal-children .btn i {
+				transition: 0.3s !important;
+				transform: translateY(0);
+			}
+			.modal-children .btn:hover {
+				background-color: #fff;
+				color: #000;
+			}
+			.modal-children .btn:hover i {
+				color: #000;
+				transform: translateY(15%);
+			}
+
+			@media (max-width: 850px) {
+				body {
+					flex-direction: column;
+				}
+				#initial-slide {
+					width: 100vw;
+					height: 50vh;
+					transition: 0.5s;
+				}
+				.modal-children {
+					width: 100vw;
+					height: 100vh;
+					background-color: #000;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					border-radius: 0;
+					animation: scale 0.4s ease-in forwards;
+				}
+			}
+			@media (max-width: 450px) {
+			}
+		</style>
+	</head>
+	<body>
+		<div class="modal">
+			<div class="modal-children">
+				<h1 class="title">Ooops Looks like you've lost</h1>
+				<button class="btn retry">
+					Retry <i class="fas fa-arrow-circle-down"></i>
+				</button>
+			</div>
+		</div>
+		<div class="versus-container">
+			<div class="versus">VS</div>
+		</div>
+		<div class="score-container">
+			<div class="highscore">
+				High Score: <span class="high-score-points">0</span>
+			</div>
+			<div class="score">Score: <span class="score-points">0</span></div>
+		</div>
+		<div id="initial-slide" class="left-sl">
+			<div class="game-controller">
+				<h1 class="title left">
+					<span class="quote start">“</span>Slacklining<span
+						class="quote end"
+						>”</span
+					>
+				</h1>
+				<p class="has">has</p>
+				<h1 class="points left">22,200</h1>
+				<p class="searches left">average monthly searches</p>
+			</div>
+		</div>
+		<div id="initial-slide" class="right-sl">
+			<div class="game-controller">
+				<h1 class="title right">
+					<span class="quote start">“</span>United Airlines<span
+						class="quote end"
+						>”</span
+					>
+				</h1>
+				<p class="has">has</p>
+				<div class="higher-lower">
+					<button class="btn higher">
+						Higher <i class="fas fa-caret-up up"></i>
+					</button>
+					<button class="btn lower">
+						Lower <i class="fas fa-caret-down down"></i>
+					</button>
+				</div>
+				<h1 class="points right">0</h1>
+				<p class="searches right">searches than “Slacklining”</p>
+			</div>
+		</div>
+
+		<script>
+			const rightSidePoints = document.querySelector('.points.right');
+			const higherButton = document.querySelector('.higher');
+			const lowerButton = document.querySelector('.lower');
+			const score = document.querySelector('.score-points');
+			const highscore = document.querySelector('.high-score-points');
+			const retryBtn = document.querySelector('.retry');
+			const modal = document.querySelector('.modal');
+
+			const leftSlide = document.querySelector('.left-sl');
+
+			const rightSlide = document.querySelector('.right-sl');
+
+			const buttonContainer = document.querySelector('.higher-lower');
+
+			retryBtn.addEventListener('click', () => {
+				modal.classList.remove('show');
+				document.body.lastElementChild.remove();
+				document.body.lastElementChild.remove();
+				document.body.append(leftSlide);
+				document.body.append(rightSlide);
+				const slideTitle = document.querySelector('.points.right');
+				slideTitle.textContent = '0';
+				slideTitle.classList.remove('show');
+				document
+					.querySelectorAll('.has')[1]
+					.insertAdjacentElement('afterend', buttonContainer);
+			});
+			let temp = [];
+			const shufflleSlides = [
+				{
+					title: 'Adele',
+					image:
+						"url('http://api.higherlowergame.com/_client/images/general/adele.jpg')",
+					searches: 2240000,
+				},
+				{
+					title: 'Monaco Grand Prix',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/monaco-grand-prix.jpg")',
+					searches: 49500,
+				},
+				{
+					title: 'David',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/david-cameron.jpg")',
+					searches: 135000,
+				},
+				{
+					title: 'The Pill',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/the-pill.jpg")',
+					searches: 33100,
+				},
+				{
+					title: 'Barry Manilow',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/barry-manilow.jpg")',
+					searches: 301000,
+				},
+				{
+					title: 'Wii Sports',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/wii-sports.jpg")',
+					searches: 49500,
+				},
+				{
+					title: 'Burger King',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/burger-king.jpg")',
+					searches: 6120000,
+				},
+				{
+					title: 'Canoeing',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/canoeing.jpg")',
+					searches: 90500,
+				},
+				{
+					title: 'Paul Mccartney',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/paul-mccartney.jpg")',
+					searches: 823000,
+				},
+				{
+					title: 'Air Hockey',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/air-hockey.jpg")',
+					searches: 110000,
+				},
+				{
+					title: 'Eden Hazard',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/eden-hazard.jpg")',
+					searches: 550000,
+				},
+				{
+					title: 'IKEA',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/ikea.jpg")',
+					searches: 37200000,
+				},
+				{
+					title: 'Homelessness',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/homelessness.jpg")',
+					searches: 165000,
+				},
+				{
+					title: 'Scarlett Johansson',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/scarlett-johansson.jpg")',
+					searches: 3350000,
+				},
+				{
+					title: 'HIV',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/hiv.jpg")',
+					searches: 823000,
+				},
+				{
+					title: 'Earth',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/earth.jpg")',
+					searches: 1830000,
+				},
+				{
+					title: 'Halloween',
+					image:
+						'url("http://api.higherlowergame.com/_client/images/general/halloween.jpg")',
+					searches: 4090000,
+				},
+			];
+			function getSlideData() {
+				if (shufflleSlides.length - 1 === temp.length + 1) {
+					return;
+				}
+				const data =
+					shufflleSlides[
+						Math.floor(Math.random() * (shufflleSlides.length - 1))
+					];
+				if (temp.includes(data)) {
+					return getSlideData();
+				} else {
+					temp.push(data);
+					return data;
+				}
+			}
+			function createSilde() {
+				const initialSlide = document.createElement('div');
+				const slideData = getSlideData();
+
+				const prevTitle = document
+					.querySelector('.game-controller .title')
+					.textContent.split(' ')
+					.map(word => word.trim())
+					.join(' ');
+				initialSlide.id = 'initial-slide';
+				initialSlide.classList.add('right-sl');
+				initialSlide.style.backgroundImage = slideData.image;
+
+				const gameController = document.createElement('div');
+				gameController.classList.add('game-controller');
+
+				const mostSearchedTitle = document.createElement('h1');
+				mostSearchedTitle.classList.add('title');
+				mostSearchedTitle.classList.add('right');
+				mostSearchedTitle.innerHTML = `<span class="quote start">“</span>${slideData.title}<span
+						class="quote end"
+						>”</span
+					>`;
+				gameController.append(mostSearchedTitle);
+
+				const has = document.createElement('p');
+				has.classList.add('has');
+				has.textContent = 'has';
+
+				gameController.append(has);
+
+				const higherLower = document.createElement('div');
+				higherLower.classList.add('higher-lower');
+
+				let addToNumber = 0;
+				if (slideData.searches <= 50000) {
+					addToNumber = 500;
+				} else if (slideData.searches <= 100000) {
+					addToNumber = 10000;
+				} else if (
+					slideData.searches > 100000 &&
+					slideData.searches <= 1000000
+				) {
+					addToNumber = 2000;
+				} else if (
+					slideData.searches > 1000000 &&
+					slideData.searches <= 7000000
+				) {
+					addToNumber = 10000;
+				} else if (
+					slideData.searches > 7000000 &&
+					slideData.searches <= 50000000
+				) {
+					addToNumber = 100000;
+				}
+
+				const higher = document.createElement('button');
+				higher.innerHTML = 'Higher <i class="fas fa-caret-up up"></i>';
+				higher.classList.add('btn');
+				higher.classList.add('higher');
+				higher.addEventListener('click', () => {
+					const container = document.querySelector('.higher-lower');
+					container.remove();
+					const rightSidePoints = document.querySelectorAll(
+						'.points.right'
+					)[1];
+					rightSidePoints.classList.add('show');
+
+					const id = setInterval(() => {
+						let number =
+							Number(
+								rightSidePoints.textContent.replace(/\D/g, '')
+							) + addToNumber;
+						if (number >= slideData.searches) {
+							clearInterval(id);
+							const leftSlideNumber = Number(
+								document
+									.querySelectorAll('.points.right')[0]
+									.textContent.replace(/\D/g, '')
+							);
+							const timeoutId = setTimeout(() => {
+								if (leftSlideNumber <= number) {
+									score.textContent = +score.textContent + 1;
+
+									if (
+										shufflleSlides.length - 1 ===
+										temp.length + 1
+									) {
+										document.querySelector(
+											'.modal-children .title'
+										).textContent = "Good Job! You've won";
+										document.querySelector(
+											'.modal-children .retry'
+										).textContent = 'Replay';
+										document
+											.querySelector('.modal')
+											.classList.add('show');
+										return;
+									}
+
+									document
+										.querySelectorAll('.right-sl')[0]
+										.remove();
+									document.querySelector(
+										'.searches'
+									).textContent = 'average monthly searches';
+									clearTimeout(timeoutId);
+
+									createSilde();
+								} else {
+									if (
+										+score.textContent >
+										+highscore.textContent
+									) {
+										highscore.textContent =
+											score.textContent;
+									}
+									document
+										.querySelector('.modal')
+										.classList.add('show');
+									temp = [];
+									score.textContent = '0';
+								}
+							}, 500);
+						}
+						rightSidePoints.textContent = number.toLocaleString();
+					}, 5);
+				});
+
+				const lower = document.createElement('button');
+				lower.innerHTML =
+					'Lower <i class="fas fa-caret-down down"></i>';
+				lower.classList.add('btn');
+				lower.classList.add('lower');
+
+				lower.addEventListener('click', () => {
+					const container = document.querySelector('.higher-lower');
+					container.remove();
+					const rightSidePoints = document.querySelectorAll(
+						'.points.right'
+					)[1];
+					rightSidePoints.classList.add('show');
+
+					const id = setInterval(() => {
+						let number =
+							Number(
+								rightSidePoints.textContent.replace(/\D/g, '')
+							) + addToNumber;
+
+						if (number >= slideData.searches) {
+							clearInterval(id);
+							const leftSlideNumber = Number(
+								document
+									.querySelectorAll('.points.right')[0]
+									.textContent.replace(/\D/g, '')
+							);
+							console.log(leftSlideNumber);
+							const timeoutId = setTimeout(() => {
+								if (leftSlideNumber >= number) {
+									score.textContent = +score.textContent + 1;
+
+									if (
+										shufflleSlides.length - 1 ===
+										temp.length + 1
+									) {
+										document.querySelector(
+											'.modal-children .title'
+										).textContent = "Good Job! You've won";
+										document.querySelector(
+											'.modal-children .retry'
+										).textContent = 'Replay';
+										document
+											.querySelector('.modal')
+											.classList.add('show');
+										return;
+									}
+
+									document
+										.querySelectorAll('.right-sl')[0]
+										.remove();
+									document.querySelector(
+										'.searches'
+									).textContent = 'average monthly searches';
+									clearTimeout(timeoutId);
+
+									createSilde();
+								} else {
+									if (
+										+score.textContent >
+										+highscore.textContent
+									) {
+										highscore.textContent =
+											score.textContent;
+									}
+									document
+										.querySelector('.modal')
+										.classList.add('show');
+									temp = [];
+									score.textContent = '0';
+								}
+							}, 500);
+						}
+						rightSidePoints.textContent = number.toLocaleString();
+					}, 5);
+				});
+
+				higherLower.append(higher);
+				higherLower.append(lower);
+
+				gameController.append(higherLower);
+
+				const points = document.createElement('h1');
+				points.classList.add('points');
+				points.classList.add('right');
+				points.textContent = '0';
+
+				gameController.append(points);
+
+				const searches = document.createElement('p');
+				searches.classList.add('searches');
+				searches.classList.add('right');
+				searches.textContent = `searches than ${
+					document.querySelector('.game-controller .title')
+						.textContent
+				}`;
+				gameController.append(searches);
+				initialSlide.append(gameController);
+				document.body.append(initialSlide);
+			}
+
+			function displayWin() {
+				document.querySelector('.modal-children .title').textContent =
+					"Good Job! You've won";
+				document.querySelector('.modal-children .retry').textContent =
+					'Replay';
+				document.querySelector('.modal').classList.add('show');
+				return;
+			}
+
+			higherButton.addEventListener('click', () => {
+				const container = document.querySelector('.higher-lower');
+				container.remove();
+				rightSidePoints.classList.add('show');
+
+				const id = setInterval(() => {
+					let number =
+						Number(rightSidePoints.textContent.replace(/\D/g, '')) +
+						1000;
+					if (number >= 56000) {
+						clearInterval(id);
+						const leftSlideNumber = Number(
+							document
+								.querySelector('.points.left')
+								.textContent.replace(/\D/g, '')
+						);
+						const timeoutId = setTimeout(() => {
+							if (leftSlideNumber <= number) {
+								score.textContent = +score.textContent + 1;
+
+								if (
+									shufflleSlides.length - 1 ===
+									temp.length + 1
+								) {
+									document.querySelector(
+										'.modal-children .title'
+									).textContent = "Good Job! You've won";
+									document.querySelector(
+										'.modal-children .retry'
+									).textContent = 'Replay';
+									document
+										.querySelector('.modal')
+										.classList.add('show');
+									return;
+								}
+								document.querySelector('.left-sl').remove();
+								document.querySelector(
+									'.searches.right'
+								).textContent = 'average monthly searches';
+
+								clearTimeout(timeoutId);
+								createSilde();
+							} else {
+								if (
+									+score.textContent > +highscore.textContent
+								) {
+									highscore.textContent = score.textContent;
+								}
+								document
+									.querySelector('.modal')
+									.classList.add('show');
+								temp = [];
+								score.textContent = '0';
+							}
+						}, 500);
+					}
+					rightSidePoints.textContent = number.toLocaleString();
+				}, 5);
+			});
+			lowerButton.addEventListener('click', () => {
+				const container = document.querySelector('.higher-lower');
+				container.remove();
+				rightSidePoints.classList.add('show');
+
+				const id = setInterval(() => {
+					let number =
+						Number(rightSidePoints.textContent.replace(/\D/g, '')) +
+						1000;
+					if (number >= 56000) {
+						clearInterval(id);
+						const leftSlideNumber = Number(
+							document
+								.querySelector('.points.left')
+								.textContent.replace(/\D/g, '')
+						);
+						const timeoutId = setTimeout(() => {
+							if (leftSlideNumber >= number) {
+								score.textContent = +score.textContent + 1;
+
+								if (
+									shufflleSlides.length - 1 ===
+									temp.length + 1
+								) {
+									document.querySelector(
+										'.modal-children .title'
+									).textContent = "Good Job! You've won";
+									document.querySelector(
+										'.modal-children .retry'
+									).textContent = 'Replay';
+									document
+										.querySelector('.modal')
+										.classList.add('show');
+									return;
+								}
+								document.querySelector('.left-sl').remove();
+								document.querySelector(
+									'.searches.right'
+								).textContent = 'average monthly searches';
+								clearTimeout(timeoutId);
+								createSilde();
+							} else {
+								if (
+									+score.textContent > +highscore.textContent
+								) {
+									highscore.textContent = score.textContent;
+								}
+								document
+									.querySelector('.modal')
+									.classList.add('show');
+								temp = [];
+								score.textContent = '0';
+							}
+						}, 500);
+					}
+					rightSidePoints.textContent = number.toLocaleString();
+				}, 5);
+			});
+		</script>
+	</body>
+</html>
