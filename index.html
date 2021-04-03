@@ -15,6 +15,10 @@
 		></script>
 		<title>The Higher Lower Game</title>
 		<style>
+			@font-face {
+				font-family: 'rooney-sans';
+				src: url('./fonts//RooneySansMedium.woff');
+			}
 			body {
 				margin: 0;
 				position: absolute;
@@ -52,6 +56,7 @@
 			}
 			.quote {
 				color: #fff;
+				font-family: 'rooney-sans';
 			}
 
 			.game-controller .title {
@@ -242,7 +247,7 @@
 				height: 100%;
 				position: absolute;
 				background-color: #000;
-				opacity: 0.4;
+				opacity: 0.5;
 			}
 			@media (max-width: 850px) {
 				body {
@@ -329,7 +334,6 @@
 			const higherButton = document.querySelector('.higher');
 			const lowerButton = document.querySelector('.lower');
 			const score = document.querySelector('.score-points');
-			const highscore = document.querySelector('.high-score-points');
 			const retryBtn = document.querySelector('.retry');
 			const modal = document.querySelector('.modal');
 
@@ -353,7 +357,7 @@
 					.insertAdjacentElement('afterend', buttonContainer);
 			});
 			let temp = [];
-			const shufflleSlides = [
+			const shuffleSlides = [
 				{
 					title: 'Adele',
 					image:
@@ -458,12 +462,13 @@
 				},
 			];
 			function getSlideData() {
-				if (shufflleSlides.length - 1 === temp.length + 1) {
+				if (shuffleSlides.length === temp.length) {
 					return;
 				}
+
 				const data =
-					shufflleSlides[
-						Math.floor(Math.random() * (shufflleSlides.length - 1))
+					shuffleSlides[
+						Math.floor(Math.random() * shuffleSlides.length)
 					];
 				if (temp.includes(data)) {
 					return getSlideData();
@@ -476,6 +481,10 @@
 				const initialSlide = document.createElement('div');
 				const slideData = getSlideData();
 
+				if (!slideData) {
+					return;
+				}
+
 				const prevTitle = document
 					.querySelector('.game-controller .title')
 					.textContent.split(' ')
@@ -483,6 +492,9 @@
 					.join(' ');
 				initialSlide.id = 'initial-slide';
 				initialSlide.classList.add('right-sl');
+				const slideOverlay = document.createElement('div');
+				slideOverlay.classList.add('slide-overlay');
+				initialSlide.append(slideOverlay);
 				initialSlide.style.backgroundImage = slideData.image;
 
 				const gameController = document.createElement('div');
@@ -541,20 +553,22 @@
 									(leftSlideNumber >= number && !isHigher)
 								) {
 									score.textContent = +score.textContent + 1;
-
-									if (
-										shufflleSlides.length - 1 ===
-										temp.length + 1
-									) {
+									console.log(shuffleSlides.length);
+									console.log(temp.length);
+									console.log(shuffleSlides);
+									console.log(temp);
+									if (shuffleSlides.length === temp.length) {
 										document.querySelector(
 											'.modal-children .title'
 										).textContent = "Good Job! You've won";
 										document.querySelector(
 											'.modal-children .retry'
-										).textContent = 'Replay';
+										).innerHTML = `Replay <i class="fas fa-arrow-circle-down"</i>`;
 										document
 											.querySelector('.modal')
 											.classList.add('show');
+										temp = [];
+										score.textContent = '0';
 										return;
 									}
 
@@ -565,9 +579,13 @@
 										'.searches'
 									).textContent = 'average monthly searches';
 									clearTimeout(timeoutId);
-
+									console.log('created slide');
 									createSilde();
 								} else {
+									const highscore = document.querySelector(
+										'.high-score-points'
+									);
+
 									if (
 										+score.textContent >
 										+highscore.textContent
@@ -652,30 +670,17 @@
 								(leftSlideNumber >= number && !isHigher)
 							) {
 								score.textContent = +score.textContent + 1;
-
-								if (
-									shufflleSlides.length - 1 ===
-									temp.length + 1
-								) {
-									document.querySelector(
-										'.modal-children .title'
-									).textContent = "Good Job! You've won";
-									document.querySelector(
-										'.modal-children .retry'
-									).textContent = 'Replay';
-									document
-										.querySelector('.modal')
-										.classList.add('show');
-									return;
-								}
 								document.querySelector('.left-sl').remove();
 								document.querySelector(
 									'.searches.right'
 								).textContent = 'average monthly searches';
-
 								clearTimeout(timeoutId);
 								createSilde();
 							} else {
+								const highscore = document.querySelector(
+									'.high-score-points'
+								);
+
 								if (
 									+score.textContent > +highscore.textContent
 								) {
