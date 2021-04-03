@@ -35,14 +35,12 @@
 				background-image: url('http://api.higherlowergame.com/_client/images/general/slacklining.jpg');
 				background-size: cover;
 				background-position: 50%;
-				filter: brightness(0.9);
 			}
 			.right-sl {
 				background-color: green;
 				background-image: url(http://api.higherlowergame.com/_client/images/general/flights.jpg);
 				background-size: cover;
 				background-position: 50%;
-				filter: brightness(0.9);
 			}
 			#initial-slide .game-controller {
 				width: 100%;
@@ -55,16 +53,19 @@
 			.quote {
 				color: #fff;
 			}
+
 			.game-controller .title {
 				color: #fff;
 				letter-spacing: 0.2rem;
 				font-size: 3rem;
 				margin: 0;
 			}
+
 			.game-controller .has {
 				color: #fff;
 				font-size: 1.5rem;
 			}
+
 			.game-controller .points {
 				color: rgb(248, 248, 98);
 				letter-spacing: 0.2rem;
@@ -72,9 +73,15 @@
 				margin: 0;
 				display: inline;
 			}
+
 			.game-controller .points.right {
 				display: none;
 			}
+
+			.points.show {
+				display: inline !important;
+			}
+
 			.game-controller .searches {
 				color: #fff;
 				font-size: 1rem;
@@ -83,6 +90,9 @@
 			.game-controller .higher-lower {
 				display: flex;
 				flex-direction: column;
+			}
+			.game-controller > * {
+				z-index: 1;
 			}
 			.higher-lower .btn {
 				margin-bottom: 0.5rem;
@@ -114,9 +124,7 @@
 				color: #000;
 				transform: translateY(15%);
 			}
-			.points.show {
-				display: inline !important;
-			}
+
 			.versus-container {
 				position: absolute;
 				width: 100vw;
@@ -229,7 +237,13 @@
 				color: #000;
 				transform: translateY(15%);
 			}
-
+			.slide-overlay {
+				width: 50%;
+				height: 100%;
+				position: absolute;
+				background-color: #000;
+				opacity: 0.4;
+			}
 			@media (max-width: 850px) {
 				body {
 					flex-direction: column;
@@ -274,6 +288,7 @@
 			<div class="score">Score: <span class="score-points">0</span></div>
 		</div>
 		<div id="initial-slide" class="left-sl">
+			<div class="slide-overlay"></div>
 			<div class="game-controller">
 				<h1 class="title left">
 					<span class="quote start">“</span>Slacklining<span
@@ -287,6 +302,7 @@
 			</div>
 		</div>
 		<div id="initial-slide" class="right-sl">
+			<div class="slide-overlay"></div>
 			<div class="game-controller">
 				<h1 class="title right">
 					<span class="quote start">“</span>United Airlines<span
@@ -490,27 +506,27 @@
 				const higherLower = document.createElement('div');
 				higherLower.classList.add('higher-lower');
 
-				let addToNumber = 0;
-				if (slideData.searches <= 50000) {
-					addToNumber = 500;
-				} else if (slideData.searches <= 100000) {
-					addToNumber = 10000;
-				} else if (
-					slideData.searches > 100000 &&
-					slideData.searches <= 1000000
-				) {
-					addToNumber = 2000;
-				} else if (
-					slideData.searches > 1000000 &&
-					slideData.searches <= 7000000
-				) {
-					addToNumber = 10000;
-				} else if (
-					slideData.searches > 7000000 &&
-					slideData.searches <= 50000000
-				) {
-					addToNumber = 100000;
-				}
+				let addToNumber = slideData.searches / 100;
+				// if (slideData.searches <= 50000) {
+				// 	addToNumber = 500;
+				// } else if (slideData.searches <= 100000) {
+				// 	addToNumber = 5000;
+				// } else if (
+				// 	slideData.searches > 100000 &&
+				// 	slideData.searches <= 1000000
+				// ) {
+				// 	addToNumber = 20000;
+				// } else if (
+				// 	slideData.searches > 1000000 &&
+				// 	slideData.searches <= 7000000
+				// ) {
+				// 	addToNumber = 100000;
+				// } else if (
+				// 	slideData.searches > 7000000 &&
+				// 	slideData.searches <= 50000000
+				// ) {
+				// 	addToNumber = 1000000;
+				// }
 
 				const higher = document.createElement('button');
 				higher.innerHTML = 'Higher <i class="fas fa-caret-up up"></i>';
@@ -703,7 +719,7 @@
 				const id = setInterval(() => {
 					let number =
 						Number(rightSidePoints.textContent.replace(/\D/g, '')) +
-						1000;
+						100;
 					if (number >= 56000) {
 						clearInterval(id);
 						const leftSlideNumber = Number(
@@ -762,7 +778,7 @@
 				const id = setInterval(() => {
 					let number =
 						Number(rightSidePoints.textContent.replace(/\D/g, '')) +
-						1000;
+						100;
 					if (number >= 56000) {
 						clearInterval(id);
 						const leftSlideNumber = Number(
