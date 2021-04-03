@@ -512,7 +512,8 @@
 				higher.innerHTML = 'Higher <i class="fas fa-caret-up up"></i>';
 				higher.classList.add('btn');
 				higher.classList.add('higher');
-				higher.addEventListener('click', () => {
+
+				const everything2 = isHigher => {
 					const container = document.querySelector('.higher-lower');
 					container.remove();
 					const rightSidePoints = document.querySelectorAll(
@@ -525,6 +526,7 @@
 							Number(
 								rightSidePoints.textContent.replace(/\D/g, '')
 							) + addToNumber;
+
 						if (number >= slideData.searches) {
 							clearInterval(id);
 							const leftSlideNumber = Number(
@@ -532,8 +534,12 @@
 									.querySelectorAll('.points.right')[0]
 									.textContent.replace(/\D/g, '')
 							);
+
 							const timeoutId = setTimeout(() => {
-								if (leftSlideNumber <= number) {
+								if (
+									(leftSlideNumber <= number && isHigher) ||
+									(leftSlideNumber >= number && !isHigher)
+								) {
 									score.textContent = +score.textContent + 1;
 
 									if (
@@ -579,7 +585,9 @@
 						}
 						rightSidePoints.textContent = number.toLocaleString();
 					}, 5);
-				});
+				};
+
+				higher.addEventListener('click', () => everything2(true));
 
 				const lower = document.createElement('button');
 				lower.innerHTML =
@@ -587,76 +595,7 @@
 				lower.classList.add('btn');
 				lower.classList.add('lower');
 
-				lower.addEventListener('click', () => {
-					const container = document.querySelector('.higher-lower');
-					container.remove();
-					const rightSidePoints = document.querySelectorAll(
-						'.points.right'
-					)[1];
-					rightSidePoints.classList.add('show');
-
-					const id = setInterval(() => {
-						let number =
-							Number(
-								rightSidePoints.textContent.replace(/\D/g, '')
-							) + addToNumber;
-
-						if (number >= slideData.searches) {
-							clearInterval(id);
-							const leftSlideNumber = Number(
-								document
-									.querySelectorAll('.points.right')[0]
-									.textContent.replace(/\D/g, '')
-							);
-							console.log(leftSlideNumber);
-							const timeoutId = setTimeout(() => {
-								if (leftSlideNumber >= number) {
-									score.textContent = +score.textContent + 1;
-
-									if (
-										shufflleSlides.length - 1 ===
-										temp.length + 1
-									) {
-										document.querySelector(
-											'.modal-children .title'
-										).textContent = "Good Job! You've won";
-										document.querySelector(
-											'.modal-children .retry'
-										).textContent = 'Replay';
-										document
-											.querySelector('.modal')
-											.classList.add('show');
-										return;
-									}
-
-									document
-										.querySelectorAll('.right-sl')[0]
-										.remove();
-									document.querySelector(
-										'.searches'
-									).textContent = 'average monthly searches';
-									clearTimeout(timeoutId);
-
-									createSilde();
-								} else {
-									if (
-										+score.textContent >
-										+highscore.textContent
-									) {
-										highscore.textContent =
-											score.textContent;
-									}
-									document
-										.querySelector('.modal')
-										.classList.add('show');
-									temp = [];
-									score.textContent = '0';
-								}
-							}, 500);
-						}
-						rightSidePoints.textContent = number.toLocaleString();
-					}, 5);
-				});
+				lower.addEventListener('click', () => everything2(false));
 
 				higherLower.append(higher);
 				higherLower.append(lower);
