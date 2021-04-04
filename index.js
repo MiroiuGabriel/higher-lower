@@ -239,12 +239,6 @@ function createSilde() {
 	if (!slideData) {
 		return;
 	}
-
-	const prevTitle = document
-		.querySelector('.game-controller .title')
-		.textContent.split(' ')
-		.map(word => word.trim())
-		.join(' ');
 	initialSlide.id = 'initial-slide';
 	initialSlide.classList.add('right-sl');
 	const slideOverlay = document.createElement('div');
@@ -306,6 +300,12 @@ function createSilde() {
 					) {
 						score.textContent = +score.textContent + 1;
 						if (shuffleSlides.length === temp.length) {
+							const highscore = document.querySelector(
+								'.high-score-points'
+							);
+							if (+score.textContent > +highscore.textContent) {
+								highscore.textContent = score.textContent;
+							}
 							document.querySelector(
 								'.modal-children .title'
 							).textContent = "Good Job! You've won";
