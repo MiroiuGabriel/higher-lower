@@ -269,8 +269,64 @@
 					border-radius: 0;
 					animation: scale 0.4s ease-in forwards;
 				}
+				.slide-overlay {
+					width: 100%;
+					height: 50vh;
+				}
+				.game-controller .title {
+					font-size: 2rem;
+				}
+				.game-controller .points {
+					font-size: 3rem;
+				}
+				.game-controller .searches {
+					font-size: 0.8rem;
+				}
+				.versus {
+					padding: 1.5rem;
+				}
+				.highscore {
+					font-size: 1.1rem;
+				}
+				.score {
+					font-size: 1.1rem;
+				}
+				.game-controller .has {
+					font-size: 1rem;
+				}
+				.game-controller .btn {
+					font-size: 1rem;
+				}
 			}
-			@media (max-width: 450px) {
+			@media (max-height: 512px) {
+				.slide-overlay {
+					width: 50vw;
+					height: 100vh;
+				}
+				.game-controller .title {
+					font-size: 2rem;
+				}
+				.game-controller .points {
+					font-size: 3rem;
+				}
+				.game-controller .searches {
+					font-size: 0.8rem;
+				}
+				.versus {
+					padding: 1.5rem;
+				}
+				.highscore {
+					font-size: 1.1rem;
+				}
+				.score {
+					font-size: 1.1rem;
+				}
+				.game-controller .has {
+					font-size: 1rem;
+				}
+				.game-controller .btn {
+					font-size: 1rem;
+				}
 			}
 		</style>
 	</head>
@@ -325,7 +381,7 @@
 					</button>
 				</div>
 				<h1 class="points right">0</h1>
-				<p class="searches right">searches than “Slacklining”</p>
+				<p class="searches right">searches than Slacklining</p>
 			</div>
 		</div>
 
@@ -630,10 +686,9 @@
 				const searches = document.createElement('p');
 				searches.classList.add('searches');
 				searches.classList.add('right');
-				searches.textContent = `searches than ${
-					document.querySelector('.game-controller .title')
-						.textContent
-				}`;
+				searches.textContent = `searches than ${document
+					.querySelector('.game-controller .title')
+					.textContent.replace(/[“”]+/g, '')}`;
 				gameController.append(searches);
 				initialSlide.append(gameController);
 				document.body.append(initialSlide);
