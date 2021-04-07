@@ -387,11 +387,12 @@ const setHigherOrLower = isHigher => {
 	const container = document.querySelector('.higher-lower');
 	container.remove();
 	rightSidePoints.classList.add('show');
-
+	const toAdd = 560;
+	const SEARCHES = 56000;
 	const id = setInterval(() => {
 		let number =
-			Number(rightSidePoints.textContent.replace(/\D/g, '')) + 1000;
-		if (number >= 56000) {
+			Number(rightSidePoints.textContent.replace(/\D/g, '')) + toAdd;
+		if (number >= SEARCHES) {
 			clearInterval(id);
 			const leftSlideNumber = Number(
 				document
