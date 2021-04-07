@@ -333,6 +333,13 @@ function createSilde() {
 						if (+score.textContent > +highscore.textContent) {
 							highscore.textContent = score.textContent;
 						}
+						document.querySelector(
+							'.modal-children .title'
+						).textContent = "Ooops! Looks like you've lost";
+						document.querySelector(
+							'.modal-children .retry'
+						).innerHTML = `Retry <i class="fas fa-arrow-circle-down"></i>`;
+
 						document.querySelector('.modal').classList.add('show');
 						temp = [];
 						score.textContent = '0';
@@ -410,7 +417,15 @@ const setHigherOrLower = isHigher => {
 					if (+score.textContent > +highscore.textContent) {
 						highscore.textContent = score.textContent;
 					}
+					document.querySelector(
+						'.modal-children .title'
+					).textContent = "Ooops! Looks like you've lost";
+					document.querySelector(
+						'.modal-children .retry'
+					).innerHTML = `Retry <i class="fas fa-arrow-circle-down"></i>`;
+
 					document.querySelector('.modal').classList.add('show');
+
 					temp = [];
 					score.textContent = '0';
 				}
