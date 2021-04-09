@@ -274,7 +274,7 @@ function createSilde() {
 	higher.classList.add('btn');
 	higher.classList.add('higher');
 
-	const everything2 = isHigher => {
+	const getHigherLowerCurrent = isHigher => {
 		const container = document.querySelector('.higher-lower');
 		container.remove();
 		const rightSidePoints = document.querySelectorAll('.points.right')[1];
@@ -350,14 +350,14 @@ function createSilde() {
 		}, 5);
 	};
 
-	higher.addEventListener('click', () => everything2(true));
+	higher.addEventListener('click', () => getHigherLowerCurrent(true));
 
 	const lower = document.createElement('button');
 	lower.innerHTML = 'Lower <i class="fas fa-caret-down down"></i>';
 	lower.classList.add('btn');
 	lower.classList.add('lower');
 
-	lower.addEventListener('click', () => everything2(false));
+	lower.addEventListener('click', () => getHigherLowerCurrent(false));
 
 	higherLower.append(higher);
 	higherLower.append(lower);
