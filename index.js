@@ -33,191 +33,174 @@ let temp = [];
 const shuffleSlides = [
 	{
 		title: 'Adele',
-		image:
-			"url('http://api.higherlowergame.com/_client/images/general/adele.jpg')",
+		image: 'url("http://api.higherlowergame.com/_client/images/general/adele.jpg")',
 		searches: 2240000,
 	},
 	{
 		title: 'Monaco Grand Prix',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/monaco-grand-prix.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/monaco-grand-prix.jpg")',
 		searches: 49500,
 	},
 	{
 		title: 'David',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/david-cameron.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/david-cameron.jpg")',
 		searches: 135000,
 	},
 	{
 		title: 'The Pill',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/the-pill.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/the-pill.jpg")',
 		searches: 33100,
 	},
 	{
 		title: 'Barry Manilow',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/barry-manilow.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/barry-manilow.jpg")',
 		searches: 301000,
 	},
 	{
 		title: 'Wii Sports',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/wii-sports.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/wii-sports.jpg")',
 		searches: 49500,
 	},
 	{
 		title: 'Burger King',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/burger-king.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/burger-king.jpg")',
 		searches: 6120000,
 	},
 	{
 		title: 'Canoeing',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/canoeing.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/canoeing.jpg")',
 		searches: 90500,
 	},
 	{
 		title: 'Paul Mccartney',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/paul-mccartney.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/paul-mccartney.jpg")',
 		searches: 823000,
 	},
 	{
 		title: 'Air Hockey',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/air-hockey.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/air-hockey.jpg")',
 		searches: 110000,
 	},
 	{
 		title: 'Eden Hazard',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/eden-hazard.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/eden-hazard.jpg")',
 		searches: 550000,
 	},
 	{
 		title: 'IKEA',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/ikea.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/ikea.jpg")',
 		searches: 37200000,
 	},
 	{
 		title: 'Homelessness',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/homelessness.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/homelessness.jpg")',
 		searches: 165000,
 	},
 	{
 		title: 'Scarlett Johansson',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/scarlett-johansson.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/scarlett-johansson.jpg")',
 		searches: 3350000,
 	},
 	{
 		title: 'HIV',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/hiv.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/hiv.jpg")',
 		searches: 823000,
 	},
 	{
 		title: 'Earth',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/earth.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/earth.jpg")',
 		searches: 1830000,
 	},
 	{
 		title: 'Halloween',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/halloween.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/halloween.jpg")',
 		searches: 4090000,
 	},
 	{
 		title: 'Orange',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/orange.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/orange.jpg")',
 		searches: 16600000,
 	},
 	{
 		title: '9 11',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/9-11.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/9-11.jpg")',
 		searches: 1000000,
 	},
 	{
 		title: 'Hip Hop',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/hip-hop.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/hip-hop.jpg")',
 		searches: 823000,
 	},
 	{
 		title: 'John Lewis',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/john-lewis.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/john-lewis.jpg")',
 		searches: 6120000,
 	},
 	{
 		title: 'Broadchurch',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/broadchurch.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/broadchurch.jpg")',
 		searches: 550000,
 	},
 	{
 		title: 'Victoria Secret',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/victorias-secret.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/victorias-secret.jpg")',
 		searches: 7480000,
 	},
 	{
 		title: 'ESPN',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/espn.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/espn.jpg")',
 		searches: 24900000,
 	},
 	{
 		title: 'Brian Clough',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/brian-clough.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/brian-clough.jpg")',
 		searches: 33100,
 	},
 	{
 		title: 'Candy Crush Saga',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/candy-crush-saga.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/candy-crush-saga.jpg")',
 		searches: 7480000,
 	},
 	{
 		title: 'Spain',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/spain.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/spain.jpg")',
 		searches: 823000,
 	},
 	{
 		title: 'Mcdonalds',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/mcdonalds.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/mcdonalds.jpg")',
 		searches: 13600000,
 	},
 	{
 		title: 'Exchange Rate',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/exchange-rate.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/exchange-rate.jpg")',
 		searches: 2740000,
 	},
 	{
 		title: 'Chapecoense',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/chapecoense.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/chapecoense.jpg")',
 		searches: 673000,
 	},
 	{
 		title: 'Scented Candles',
-		image:
-			'url("http://api.higherlowergame.com/_client/images/general/scented-candles.jpg")',
+		image: 'url("http://api.higherlowergame.com/_client/images/general/scented-candles.jpg")',
 		searches: 40500,
 	},
 ];
+
+const preloadImage = src => {
+	const img = document.createElement('img');
+	console.log(src);
+	img.src = src;
+	img.style.display = 'none';
+	document.body.append(img);
+};
+
+// generate images
+shuffleSlides.forEach(item =>
+	preloadImage(item.image.replace('url("', '').replace('")', ''))
+);
+
 function getSlideData() {
 	if (shuffleSlides.length === temp.length) {
 		return;
@@ -300,9 +283,8 @@ function createSilde() {
 					) {
 						score.textContent = +score.textContent + 1;
 						if (shuffleSlides.length === temp.length) {
-							const highscore = document.querySelector(
-								'.high-score-points'
-							);
+							const highscore =
+								document.querySelector('.high-score-points');
 							if (+score.textContent > +highscore.textContent) {
 								highscore.textContent = score.textContent;
 							}
@@ -326,9 +308,8 @@ function createSilde() {
 						clearTimeout(timeoutId);
 						createSilde();
 					} else {
-						const highscore = document.querySelector(
-							'.high-score-points'
-						);
+						const highscore =
+							document.querySelector('.high-score-points');
 
 						if (+score.textContent > +highscore.textContent) {
 							highscore.textContent = score.textContent;
@@ -411,9 +392,8 @@ const setHigherOrLower = isHigher => {
 					clearTimeout(timeoutId);
 					createSilde();
 				} else {
-					const highscore = document.querySelector(
-						'.high-score-points'
-					);
+					const highscore =
+						document.querySelector('.high-score-points');
 
 					if (+score.textContent > +highscore.textContent) {
 						highscore.textContent = score.textContent;
