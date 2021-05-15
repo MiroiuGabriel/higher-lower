@@ -36,7 +36,7 @@ body {
 }
 .right-sl {
 	background-color: green;
-	background-image: url(http://api.higherlowergame.com/_client/images/general/flights.jpg);
+	background-image: url('http://api.higherlowergame.com/_client/images/general/flights.jpg');
 	background-size: cover;
 	background-position: 50%;
 }
